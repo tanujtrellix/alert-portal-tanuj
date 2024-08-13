@@ -1,0 +1,58 @@
+Alert table: 
+
+id: auto pouplated
+tenantId: c82ef4de-b80b-4610-81c6-261733d0d5c7
+customerId: hexint04sust01
+name: alerts.name
+message: leave empty
+severity: CRIT-> 1
+  App CASE: 1-> INFO, 2-> LOW, 3-> MED, 4-> HIGH, 5-> CRITICAL
+  WSAPI CASE: CRIT -> 5, MAJR -> 4, 
+
+score: leave emtpy
+confidence: leave emtpy (2)
+risk: leave empty (0)
+ruleId: alerts."scVersion": || leave empty || (1.1.1543)
+generatedBy: alerts."product"
+sources: 
+  alerts."product"-> WEB_MPS -> network, EMAIL_MPS-> email, 
+  (cloud,email,endpoint,network,intel)
+attacks: leave empty
+data: Null
+recommendedActions: leave empty
+isIntelAvailable: false
+time: alerts.occurred
+isSilent: false
+isSuppressed: false
+status: NEW
+statusDetails: Null
+assignee: NULL
+assignmentDetails: Null
+updatedBy: Null
+alertMetadataSuppressed: False
+suppressedTime: NULL
+createdAt: shwo be auto
+updatedAt: shd be auto
+genai_name: Null
+genai_summary: Null
+ruleOrigin: Null
+isCorrelated: Null
+
+
+if leaving empty doesn't work, put default what you see in the db tables for other alerts. 
+
+
+alerts_alerts: 
+
+alerts_assets
+
+alerts_cases:
+
+alerts_events: 
+
+
+uniq values for
+
+"product": "WEB_MPS",
+"severity": "CRIT",
+"name": "MALWARE_CALLBACK",
