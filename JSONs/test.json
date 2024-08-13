@@ -1,0 +1,68 @@
+{
+    "appliance-id": "86:C3:2F:5E:B1:1C",
+    "product": "CMS",
+    "version": "10.0.2.1003075",
+    "appliance": "tanuj-cm2500-verodin.eng.fireeye.com",
+    "msg": "extended",
+    "alert": {
+      "id": "44110",
+      "name": "domain-match",
+      "uuid": "b3cf7e48-5328-4de7-a8bf-fb0d5231b77a",
+      "ack": "no",
+      "sc-version": "1498.130",
+      "appliance-id": "00:0B:AB:C9:61:5A",
+      "product": "Web MPS",
+      "version": "10.0.2.1002958",
+      "sensor": "tanuj-4500-2",
+      "severity": "minr",
+      "sensor-ip": "172.16.179.64",
+      "root-infection": "40770",
+      "explanation": {
+        "analysis": "content",
+        "protocol": "tcp",
+        "malware-detected": {
+          "malware": {
+            "sid": "93000001",
+            "name": "DTI:Trojan.Gen.C.DNS",
+            "stype": "fireeye-feed-match"
+          }
+        },
+        "cnc-services": {
+          "cnc-service": {
+            "port": "80",
+            "protocol": "tcp",
+            "type": "CncSigMatch",
+            "sid": "93000001",
+            "sname": "DTI:Trojan.Gen.C.DNS",
+            "address": "globalcloudcontroller.com",
+            "channel": "GET /message.php?subid=436&br=FF&os=261&flg=23&id=0a4a4a1ac52ceab3dbc516a576d008f3&ad=ad HTTP/1.1\r\nHost: globalcloudcontroller.com\r\nUser-Agent: firefox.exe;Windows NT 5.1",
+            "host": "globalcloudcontroller.com",
+            "url": "hxxp://globalcloudcontroller.com/message.php?subid=436&br=FF&os=261&flg=23&id=0a4a4a1ac52ceab3dbc516a576d008f3&ad=ad"
+          }
+        }
+      },
+      "src": {
+        "vlan": "0",
+        "ip": "83.108.76.137",
+        "mac": "00:0c:29:cf:06:3b",
+        "port": "1065",
+        "host": "ti0140a400-5214.bb.online.no"
+      },
+      "dst": {
+        "ip": "53.69.51.123",
+        "mac": "00:50:56:e8:ba:21",
+        "port": "80"
+      },
+      "interface": {
+        "label": "A1",
+        "mode": "tap",
+        "interface": "pether3"
+      },
+      "action": "notified",
+      "alert-url": "https://tanuj-cm2500-verodin.eng.fireeye.com/detection/objects?uuid=b3cf7e48-5328-4de7-a8bf-fb0d5231b77a",
+      "occurred": "2024-08-12T20:51:29Z",
+      "locations": "Europe/Germany",
+      "attack-time": "2024-08-12T20:51:29Z"
+    }
+  }
+  

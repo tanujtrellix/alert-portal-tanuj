@@ -1,0 +1,63 @@
+[
+    {
+        "eventtime": "2022-03-29T09:30:01.000Z",
+        "event_epoch": {
+            "epochtime_field": "eventtime",
+            "hour": 9,
+            "minute": 30,
+            "seconds": 1,
+            "day": 29,
+            "month": 3,
+            "year": 2022,
+            "timezone": "utc",
+            "weekday": "tuesday"
+        }
+    },
+    {
+        "detectedtime": "2022-03-29T05:26:31.000Z",
+        "event_epoch": {
+            "epochtime_field": "detectedtime",
+            "hour": 5,
+            "minute": 26,
+            "seconds": 31,
+            "day": 29,
+            "month": 3,
+            "year": 2022,
+            "timezone": "utc",
+            "weekday": "tuesday"
+        }
+    },
+    {
+        "meta_ts": "2020-03-27T04:26:31.000Z",
+        "event_epoch": {
+            "epochtime_field": "meta_ts",
+            "hour": 4,
+            "minute": 26,
+            "seconds": 31,
+            "day": 27,
+            "month": 3,
+            "year": 2020,
+            "timezone": "utc",
+            "weekday": "friday"
+        }
+    },
+    {
+        "eventtime": "2022-03-29T09:30:01.000Z",
+        "detectedtime": "2022-03-29T05:26:31.000Z",
+        "meta_ts": "2020-03-27T04:26:31.000Z",
+        "event_epoch": {
+            "epochtime_field": "eventtime",
+            "hour": 9,
+            "minute": 30,
+            "seconds": 1,
+            "day": 29,
+            "month": 3,
+            "year": 2022,
+            "timezone": "utc",
+            "weekday": "tuesday"
+        }
+    },
+    {
+        "eventtimeutc": "2022/03/08 04:28:31 GMT"
+    }
+]
