@@ -1,15 +1,19 @@
+```
 http://10.14.93.107:8331/alerts
 http://10.14.93.107:8332/tags
 http://10.14.93.107:8333/cases
+```
 
 postgres DB:
+```
 'host': '10.14.39.97',
 'database': 'postgres',
 'user': 'postgres',
+```
 
 notification receiver service is running on: 
 10.14.39.97 and code is under /root/tanuj and running as a linux service
-
+```
 root@alert-dev-pg:~# systemctl status flask-receiver.service
 ● flask-receiver.service - POC: a http with and without auth based receiver service
      Loaded: loaded (/etc/systemd/system/flask-receiver.service; enabled; vendor preset: enabled)
@@ -20,5 +24,5 @@ root@alert-dev-pg:~# systemctl status flask-receiver.service
      CGroup: /system.slice/flask-receiver.service
              ├─505668 /root/tanuj/project/.env/bin/python app.py
              └─505679 /root/tanuj/project/.env/bin/python /root/tanuj/project/app.py
-
+```
 it also saves the json file to /root/tanuj/project/received_data locally and also in the notifications table in postgresDB.
