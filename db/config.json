@@ -1,0 +1,8 @@
+{
+  "database": {
+    "HOST": "10.14.39.97",
+    "DATABASE": "postgres",
+    "USER": "postgres",
+    "PASSWORD": "Trellix123"
+  }
+}
