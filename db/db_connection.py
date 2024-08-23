@@ -1,6 +1,9 @@
 # Postgress db related operations like connect,close, execute_statement
 import psycopg2
 import json
+from utils.logger_util import setup_logger
+
+logger = setup_logger(__name__)
 
 class Db_connection:
     def __init__(self):
@@ -26,10 +29,11 @@ class Db_connection:
             'user':self.db_config.get('USER'),
             'password': self.db_config.get('PASSWORD')
             }
+        logger.info(f"Connecting to host :{db_params['host']} and database :{db_params['database']}")
         if self.connection is None:
             self.connection = psycopg2.connect(**db_params)
             self.cursor = self.connection.cursor()
-
+            logger.info('Successfully connected to database')
 
     def close(self):
         """Close the SQLite database connection."""
@@ -37,15 +41,16 @@ class Db_connection:
             self.cursor.close()
         if self.connection is not None:
             self.connection.close()
+        logger.info('Database connection closed')
 
     def execute_statement(self, sql_query, data=(), fetch=False):
         """Executes sql statement"""
         try:
-            print('sql query :', sql_query)
+            logger.info(f"Executing sql query :{sql_query}")
             self.cursor.execute(sql_query, data)
             self.connection.commit()
             if fetch:
                 result = self.cursor.fetchall()
                 return result
         except Exception as error:
-            print(f"Error: {error}")
+            logger.error(f"Error: {error}")

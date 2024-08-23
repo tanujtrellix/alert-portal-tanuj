@@ -1,9 +1,11 @@
 import geoip2.database
-import logging
 import netaddr
 import threading
 import json
 from functools import wraps
+from utils.logger_util import setup_logger
+
+logger = setup_logger(__name__)
 
 class MaxmindGeoIp:
     def __init__(self):
@@ -22,9 +24,9 @@ class MaxmindGeoIp:
     def __call__(self, func):
         @wraps(func)
         def wrapper(*args, **kwargs):
-            # print(f"Executing {func.__name__} with arguments: {args}, {kwargs}")
+            logger.info(f"Executing {func.__name__} inside decorator {self.__class__.__name__} ")
             alert = func(*args, **kwargs)
-            print(f"Decorating {func.__name__} with decorator {self.__class__.__name__} ")
+            logger.info(f"Decorating {func.__name__} with decorator {self.__class__.__name__} ")
             result = self.decorate(alert)
             return result
 
@@ -38,7 +40,7 @@ class MaxmindGeoIp:
             self.geoip2_asn_reader = geoip2.database.Reader(self.db_files['asn'])
             return None
         except Exception as e:
-            logging.error("Error while initializing MaxmindGeoIP", exc_info=True)
+            logger.error("Error while initializing MaxmindGeoIP", exc_info=True)
             return e
         finally:
             self.geoip2_mutex.release()
@@ -47,7 +49,7 @@ class MaxmindGeoIp:
         self.geoip2_mutex.acquire()
         try:
             if self.geoip2_city_reader is None or self.geoip2_country_reader is None or self.geoip2_asn_reader is None:
-                logging.error("GeoIP2 readers are not initialized")
+                logger.error("GeoIP2 readers are not initialized")
                 return "GeoIP2 readers are not initialized"
             for field in ["src", "dst"]:
                 _field = field + "ipv4"
@@ -62,28 +64,28 @@ class MaxmindGeoIp:
                                 if city_response.city.name:
                                     event[field + "city"] = city_response.city.name.lower()
                                 else:
-                                    logging.warning(f"City not found for IP {ipval} in GeoLite2-City.mmdb")
+                                    logger.warning(f"City not found for IP {ipval} in GeoLite2-City.mmdb")
                                     event[field + "city"] = ''
                             if field + "region" not in event:
                                 if city_response.subdivisions.most_specific.name:
                                     event[field + "region"] = city_response.subdivisions.most_specific.name.lower()
                                 else:
-                                    logging.warning(f"Region not found for IP {ipval} in GeoLite2-City.mmdb")
+                                    logger.warning(f"Region not found for IP {ipval} in GeoLite2-City.mmdb")
                                     event[field + "region"] = ''
                             if field + "latitude" not in event:
                                 if city_response.location.latitude:
                                     event[field + "latitude"] = city_response.location.latitude
                                 else:
-                                    logging.warning(f"Latitude not found for IP {ipval} in GeoLite2-City.mmdb")
+                                    logger.warning(f"Latitude not found for IP {ipval} in GeoLite2-City.mmdb")
                                     event[field + "latitude"] = ''
                             if field + "longitude" not in event:
                                 if city_response.location.longitude:
                                     event[field + "longitude"] = city_response.location.longitude
                                 else:
-                                    logging.warning(f"Longitude not found for IP {ipval} in GeoLite2-City.mmdb")
+                                    logger.warning(f"Longitude not found for IP {ipval} in GeoLite2-City.mmdb")
                                     event[field + "longitude"] = ''
                         except geoip2.errors.AddressNotFoundError:
-                            logging.error(f"GeoIP2 Address not found error for IP {ipval}, ignoring decoration")
+                            logger.error(f"GeoIP2 Address not found error for IP {ipval}, ignoring decoration")
                             event[field + "city"], event[field + "region"], event[field + "latitude"], event[field + "longitude"] = '', '', '', ''
                             pass
                         try:
@@ -92,28 +94,28 @@ class MaxmindGeoIp:
                                 if country_response.country.name:
                                     event[field + "country"] = country_response.country.name.lower()
                                 else:
-                                    logging.warning(f"Country not found for IP {ipval} in GeoLite2-Country.mmdb")
+                                    logger.warning(f"Country not found for IP {ipval} in GeoLite2-Country.mmdb")
                                     event[field + "country"] = ''
                             if field + "countrycode" not in event:
                                 if country_response.country.iso_code:
                                     event[field + "countrycode"] = country_response.country.iso_code.lower()
                                 else:
-                                    logging.warning(f"Country code not found for IP {ipval} in GeoLite2-Country.mmdb")
+                                    logger.warning(f"Country code not found for IP {ipval} in GeoLite2-Country.mmdb")
                                     event[field + "countrycode"] = ''
                             if field + "domain" not in event:
                                 if country_response.traits.domain:
                                     event[field + "domain"] = country_response.traits.domain.lower()
                                 else:
-                                    logging.warning(f"Domain not found for IP {ipval} in GeoLite2-Country.mmdb")
+                                    logger.warning(f"Domain not found for IP {ipval} in GeoLite2-Country.mmdb")
                                     event[field + "domain"] = ''
                             if field + "usagetype" not in event:
                                 if country_response.traits.user_type:
                                     event[field + "usagetype"] = country_response.traits.user_type.lower()
                                 else:
-                                    logging.warning(f"Usage type not found for IP {ipval} in GeoLite2-Country.mmdb")
+                                    logger.warning(f"Usage type not found for IP {ipval} in GeoLite2-Country.mmdb")
                                     event[field + "usagetype"] = ''
                         except geoip2.errors.AddressNotFoundError:
-                            logging.error(f"GeoIP2 Address not found error for IP {ipval}, ignoring decoration")
+                            logger.error(f"GeoIP2 Address not found error for IP {ipval}, ignoring decoration")
                             event[field + "country"], event[field + "countrycode"], event[field + "domain"], event[field + "usagetype"] = '', '', '', ''
                             pass
 
@@ -123,20 +125,20 @@ class MaxmindGeoIp:
                                 if asn_response.autonomous_system_organization:
                                     event[field + "isp"] = asn_response.autonomous_system_organization.lower()
                                 else:
-                                    logging.warning(f"ISP not found for IP {ipval} in GeoLite2-ASN.mmdb")
+                                    logger.warning(f"ISP not found for IP {ipval} in GeoLite2-ASN.mmdb")
                                     event[field + "isp"] = ''
                             if field + "asn" not in event:
                                 if asn_response.autonomous_system_number:
                                     event[field + "asn"] = asn_response.autonomous_system_number
                                 else:
-                                    logging.warning(f"ASN not found for IP {ipval} in GeoLite2-ASN.mmdb")
+                                    logger.warning(f"ASN not found for IP {ipval} in GeoLite2-ASN.mmdb")
                                     event[field + "asn"] = ''
                         except geoip2.errors.AddressNotFoundError:
-                            logging.error(f"GeoIP2 Address not found error for IP {ipval}, ignoring decoration")
+                            logger.error(f"GeoIP2 Address not found error for IP {ipval}, ignoring decoration")
                             event[field + "isp"], event[field + "asn"] = '', ''
                             pass
                     except Exception as e:
-                        logging.error(f"GeoIP2 fetch error for IP {ipval}, ignoring decoration", exc_info=True)
+                        logger.error(f"GeoIP2 fetch error for IP {ipval}, ignoring decoration", exc_info=True)
         finally:
             self.geoip2_mutex.release()
             return event

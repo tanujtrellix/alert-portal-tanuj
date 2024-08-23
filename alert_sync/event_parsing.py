@@ -1,6 +1,9 @@
 # import psycopg2
 import uuid
 
+from utils.logger_util import setup_logger
+
+logger = setup_logger(__name__)
 
 class EventParsing:
 
