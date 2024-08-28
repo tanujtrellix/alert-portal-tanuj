@@ -43,14 +43,23 @@ class Db_connection:
             self.connection.close()
         logger.info('Database connection closed')
 
-    def execute_statement(self, sql_query, data=(), fetch=False):
+    def execute_statement(self, sql_query, data=(), fetch=False, cursor_factory= None):
         """Executes sql statement"""
         try:
             logger.info(f"Executing sql query :{sql_query}")
-            self.cursor.execute(sql_query, data)
+            if not cursor_factory:
+                self.cursor.execute(sql_query, data)
+            else:
+                local_cursor = self.connection.cursor(cursor_factory=cursor_factory)
+                local_cursor.execute(sql_query, data)
             self.connection.commit()
             if fetch:
-                result = self.cursor.fetchall()
+                if cursor_factory:
+                    result = local_cursor.fetchall()
+                    local_cursor.close()
+                else:
+                    result = self.cursor.fetchall()
                 return result
         except Exception as error:
             logger.error(f"Error: {error}")
+
