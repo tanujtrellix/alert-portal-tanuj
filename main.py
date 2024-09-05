@@ -41,6 +41,12 @@ class Main:
         severity = self.alert_obj.map_severity(alert["severity"].lower())
         sources = self.alert_obj.map_sources(alert["product"])
         occurred = alert["occurred"]
+        attacks = []
+        mitre_data = alert.get("mitre-mapping")
+        if mitre_data:
+            for item in mitre_data["code"]:
+                    attacks.append(item['id'])
+        attacks = f'{{{",".join(attacks)}}}'
         data = (
             alert_id,
             'c82ef4de-b80b-4610-81c6-261733d0d5c7',
@@ -53,7 +59,7 @@ class Main:
             alert.get("scVersion",alert.get('sc-version','NA')),
             alert["product"],
             sources,
-            '{*/T1102,T0000/T1103,T0001/T1103}',
+            attacks,
             '{}',
             False,
             occurred
@@ -132,7 +138,7 @@ if __name__ == "__main__":
             for alert in alerts:
                 decorated_alert = main.parse_alert(alert)
                 alert_id = main.insert_alert(decorated_alert)
-                print(f'Alert-ID: {alert_id}')
+                print(f'Alert-ID: {alert_id}, org_id:{decorated_alert["id"]}')
                 if decorated_alert.get('src'):
                     asset_id = main.insert_asset(decorated_alert)
                     print(f'Asset-ID: {asset_id}')
