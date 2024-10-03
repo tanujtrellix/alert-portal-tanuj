@@ -2,3 +2,6 @@ psycopg2-binary
 IP2Location
 geoip2
 netaddr
+pytz
+ioc_finder
+python-dateutil
