@@ -3,9 +3,11 @@ import datetime
 import pytz
 import json
 from functools import wraps
-from utils.logger_util import setup_logger
+from utils import log
 
-logger = setup_logger(__name__)
+# logger = setup_logger(__name__)
+logger = log.FELogger(__name__)
+
 
 # Define the EventEpoch class
 class EventEpoch:
@@ -15,9 +17,9 @@ class EventEpoch:
     def __call__(self, func):
         @wraps(func)
         def wrapper(*args, **kwargs):
-            logger.info(f"Executing {func.__name__} inside decorator {self.__class__.__name__}")
+            logger.LogInfo(f"Executing {func.__name__} inside decorator {self.__class__.__name__}")
             alert = func(*args, **kwargs)
-            logger.info(f"Decorating {func.__name__} with decorator {self.__class__.__name__}")
+            logger.LogInfo(f"Decorating {func.__name__} with decorator {self.__class__.__name__}")
             result = self.decorate(alert)
             return result
 
@@ -37,7 +39,7 @@ class EventEpoch:
                         parsed_datetime = datetime.datetime.strptime(event[date_time_str], '%Y-%m-%dT%H:%M:%S.%fZ')
                     self.add_event_epoch(event, parsed_datetime, date_time_str)
                 except ValueError:
-                    logger.debug(f"Failed to parse dateTime field {date_time_str}")
+                    logger.LogDebug(f"Failed to parse dateTime field {date_time_str}")
         return event
 
     def add_event_epoch(self, event, parsed_datetime, date_time_str):
