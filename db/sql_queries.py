@@ -17,7 +17,7 @@ INSERT_INTO_ALERT_ASSET_QUERY = """
         """
 
 INSERT_INTO_OBSERVABLES_QUERY = """
-        INSERT INTO alert_observables (id, alertid, category, data, createdAt)
+        INSERT INTO alert_observables (id, "alertId", category, data, "createdAt")
         VALUES (%s, %s, %s, %s, %s)
         """
 
@@ -31,6 +31,6 @@ GET_FROM_NOTIFICATIONS_QUERY = """
         SELECT *
         FROM notifications
         where processed is False
-        LIMIT 5;
+        LIMIT 20;
         """
 

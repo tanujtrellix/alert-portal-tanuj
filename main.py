@@ -105,7 +105,7 @@ class Main:
             date_added = datetime.fromisoformat(date_time_current().replace('Z', '+00:00'))
             values.append((
                 observable_id, 
-                alert_id,#item['alert_id'], 
+                alert_id, 
                 item['category'], 
                 json.dumps(item), 
                 date_added
@@ -126,11 +126,17 @@ if __name__ == "__main__":
     try:
         main.db.connect()
         notifications = main.db.execute_statement(sql.GET_FROM_NOTIFICATIONS_QUERY, fetch=True, cursor_factory=extras.DictCursor)
+        print(f'Received {len(notifications)} notifications')
         for notification in notifications:
             notification_id =  notification["id"]
             print(f'Notification-ID: {notification_id}')
             notification = dict(notification)
-            json_data = json.loads(notification.get('data'))
+            _data = notification.get('data')
+            if not _data:
+                print('********************Empty notification************************')
+                main.update_notification_processed(notification_id)
+                continue
+            json_data = json.loads(_data)
             if isinstance(json_data["alert"], list):
                 alerts = json_data["alert"]
             else:
@@ -147,7 +153,6 @@ if __name__ == "__main__":
                 data = {"id": alert_id, "alert": decorated_alert}
                 observables = extract_observables(data)
                 observables_ids = main.insert_observables(alert_id, observables)
-                
                 print('-'*40,'\n','Observables-IDs:','\n',observables_ids)
                 description = alert_description(alert)
                 print('-'*40,'\n','Alert Description:',description)
